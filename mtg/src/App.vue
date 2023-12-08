@@ -1,15 +1,17 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="small-logo">
+    <img alt="Vue logo" class="small-logo" src="./assets/logo.png">
+  </div>
+  <MainView/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MainView from './components/CardList.vue'
 
 export default {
-  name: 'App',
+  name: 'MTG : Magic the Gathering',
   components: {
-    HelloWorld
+    MainView
   }
 }
 </script>
@@ -20,7 +22,13 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   margin-top: 60px;
+}
+.small-logo {
+  width: 350px;
+  height: 200px;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 50px;
 }
 </style>
