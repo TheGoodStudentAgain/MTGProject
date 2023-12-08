@@ -2,16 +2,13 @@
   <div class="small-logo">
     <img alt="Vue logo" class="small-logo" src="./assets/logo.png">
   </div>
-  <MainView/>
+  <router-view></router-view>
 </template>
 
 <script>
-import MainView from './components/CardList.vue'
-
 export default {
   name: 'MTG : Magic the Gathering',
   components: {
-    MainView
   }
 }
 </script>

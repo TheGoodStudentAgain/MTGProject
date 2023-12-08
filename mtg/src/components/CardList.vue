@@ -13,7 +13,7 @@
             <h4>Card List</h4>
             <div v-if="cards.length">
                 <p>Found {{ cards.length }} cards</p>
-                <div class="four columns" v-for="card in cards" :key="card.id">
+                <div class="four columns" v-for="card in cards" :key="card.id" @click="navigateToCardDetails(card)">
                     <img :src="card.imageUrl" :alt="card.name" />
                 </div>
             </div>
@@ -37,6 +37,10 @@
     input {
         color: black;
     }
+    img {
+        width: auto;
+        height: 300px;
+    }
 </style>
 <script>
 import axios from 'axios';
@@ -53,10 +57,21 @@ export default {
             try {
                 const response = await axios.get(`https://api.magicthegathering.io/v1/cards?name=${this.name}&contains=imageUrl`);
                 this.cards = response.data.cards;
+                console.log(this.cards);
                 console.log('Card data fetched successfully');
             } catch (error) {
                 console.error('Error fetching card data:', error);
             }
+        },
+        navigateToCardDetails(card) {
+            console.log('Navigating to card details', card);
+            const cardId = card.id;
+            this.$router.push({
+                name: 'cardDetails',
+                params: {
+                    cardId,
+                }
+            });
         },
     },
 };
