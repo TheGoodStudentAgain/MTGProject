@@ -1,32 +1,23 @@
 <template>
     <div class="container">
-        <button @load="fetchCardData" @click="fetchCardData">Find the cards</button>
-        <table class="u-full-width" v-if="cards.length">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Mana Cost</th>
-                    <th>CMC</th>
-                    <th>Colors</th>
-                    <th>Type</th>
-                    <th>Rarity</th>
-                    <th>Set</th>
-                    <th>Text</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="card in cards" :key="card.id">
-                    <td><h4>{{ card.name }}</h4></td>
-                    <td><p>{{ card.manaCost }}</p></td>
-                    <td><p>{{ card.cmc }}</p></td>
-                    <td><p>{{ card.colors }}</p></td>
-                    <td><p>{{ card.type }}</p></td>
-                    <td><p>{{ card.rarity }}</p></td>
-                    <td><p>{{ card.setName }}</p></td>
-                    <td><p>{{ card.text }}</p></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="row">
+            <div class="six columns">
+                <h4>Card Name</h4>
+                <input type="text" v-model="name" placeholder="Card Name" />
+            </div>
+            <div class="four columns">
+                <button @click="fetchCardDataByName">Fetch</button>
+            </div>
+        </div>
+        <div>
+            <h4>Card List</h4>
+            <div v-if="cards.length">
+                <p>Found {{ cards.length }} cards</p>
+                <div class="four columns" v-for="card in cards" :key="card.id">
+                    <img :src="card.imageUrl" :alt="card.name" />
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <style>
@@ -39,39 +30,32 @@
     table {
         color: white;
     }
+    .columns {
+        color: white;
+        margin: auto auto;
+    }
+    input {
+        color: black;
+    }
 </style>
 <script>
-import Papa from 'papaparse';
 import axios from 'axios';
 
 export default {
     data() {
         return {
             cards: [],
+            name: "",
         };
     },
     methods: {
-        async fetchCardData() {
-            console.log('Fetching card data...');
+        async fetchCardDataByName() {
             try {
-                const response = await axios.get('https://api.magicthegathering.io/v1/cards');
+                const response = await axios.get(`https://api.magicthegathering.io/v1/cards?name=${this.name}&contains=imageUrl`);
                 this.cards = response.data.cards;
                 console.log('Card data fetched successfully');
             } catch (error) {
                 console.error('Error fetching card data:', error);
-            }
-        },
-        saveToCSV(data) {
-            const csv = Papa.unparse(data);
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            if (navigator.msSaveBlob) {
-                navigator.msSaveBlob(blob, 'mtg_cards.csv');
-            } else {
-                link.href = URL.createObjectURL(blob);
-                link.target = '_blank';
-                link.download = 'mtg_cards.csv';
-                link.click();
             }
         },
     },
