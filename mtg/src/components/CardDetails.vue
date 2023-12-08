@@ -13,9 +13,12 @@
         }
     },
      name: 'CardDetails',
-     props: {
-         cardId: String,
-     }
+      props: {
+          cardId: {
+              type: String,
+              required: true
+          }
+      }
    }
    
   </script>

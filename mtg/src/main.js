@@ -5,12 +5,11 @@ import CardDetails from './components/CardDetails.vue'
 import App from './App.vue'
 import {createApp} from 'vue';
 import {createRouter, createWebHistory} from 'vue-router';
-import Card from './modals/card'
 
 
 const routes = [
     { path: '/', component: MainView, props: true, name: 'main'},
-    { path: '/cardDetails', component: CardDetails, props: {Card}, name: 'cardDetails' },
+    { path: '/cardDetails/:cardId', component: CardDetails, props: true, name: 'cardDetails' },
 ];
 
 const router = createRouter({
