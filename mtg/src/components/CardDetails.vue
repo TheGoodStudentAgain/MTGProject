@@ -2,7 +2,7 @@
     <button @click="navigateToMain">Back to Research</button>
     <h3>{{ card.name }}</h3>
     <img :src="card.imageUrl" :alt="card.name" />
-    <table>
+    <table class="four columns">
         <thead>
             <tr>
                 <th>Format</th>
@@ -62,6 +62,11 @@
   </script>
   
   <style>
+    .columns {
+        color: white;
+        margin: auto auto;
+    }
+
     table {
         text-align: center;
         margin: auto auto;
