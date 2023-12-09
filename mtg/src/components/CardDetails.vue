@@ -1,28 +1,84 @@
 <template>
     <button @click="navigateToMain">Back to Research</button>
-    <div class="small-logo">
-        {{ cardId }}
-    </div>
+    <h3>{{ card.name }}</h3>
+    <img :src="card.imageUrl" :alt="card.name" />
+    <table>
+        <thead>
+            <tr>
+                <th>Format</th>
+                <th>Legality</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="format in formats" :key="format.format">
+                <td v-if="format.legality === 'Legal'" id="legal">{{ format.format }}</td>
+                <td v-if="format.legality === 'Legal'" id="legal">{{ format.legality }}</td>
+                <td v-if="format.legality === 'Restricted'" id="restricted">{{ format.format }}</td>
+                <td v-if="format.legality === 'Restricted'" id="restricted">{{ format.legality }}</td>
+                <td v-if="format.legality === 'Banned'" id="banned">{{ format.format }}</td>
+                <td v-if="format.legality === 'Banned'" id="banned">{{ format.legality }}</td>
+            </tr>
+        </tbody>
+    </table>
   </template>
   
   <script>
-   export default {
-    methods: {
-        navigateToMain() {
-            this.$router.push('/');
-        }
+    import axios from 'axios';
+
+    export default {
+        data() {
+        return {
+            card: {},
+            formats: [],
+            name: "",
+        };
     },
-     name: 'CardDetails',
-      props: {
-          cardId: {
-              type: String,
-              required: true
-          }
-      }
+        methods: {
+            navigateToMain() {
+                this.$router.push('/');
+            },
+            async fetchCardDataById() {
+                try {
+                    const response = await axios.get(`https://api.magicthegathering.io/v1/cards/${this.cardId}`);
+                    this.card = response.data.card;
+                    this.formats = this.card.legalities;
+                    console.log('Card data fetched successfully');
+                } catch (error) {
+                    console.error('Error fetching card data:', error);
+                }
+            },
+        },
+        created() {
+            this.fetchCardDataById();
+        },
+        name: 'CardDetails',
+        props: {
+            cardId: {
+                type: String,
+                required: true
+            }
+        }
    }
   </script>
   
   <style>
+    table {
+        text-align: center;
+        margin: auto auto;
+    }
+
+    #legal {
+        color: green;
+    }
+
+    #restricted {
+        color: yellow;
+    }
+
+    #banned {
+        color: red;
+    }
+
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
