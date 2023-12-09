@@ -1,8 +1,10 @@
 <template>
     <button @click="navigateToMain">Back to Research</button>
     <h3>{{ card.name }}</h3>
-    <img :src="card.imageUrl" :alt="card.name" />
-    <table class="four columns">
+    <div class="six columns">
+        <img :src="card.imageUrl" :alt="card.name" />
+    </div>
+    <table class="six columns">
         <thead>
             <tr>
                 <th>Format</th>

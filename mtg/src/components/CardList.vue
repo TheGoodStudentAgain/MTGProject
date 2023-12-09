@@ -7,6 +7,7 @@
             </div>
             <div class="four columns">
                 <button @click="fetchCardDataByName">Fetch</button>
+                <button @click="navigateToDeckLegality">Check deck legality</button>
             </div>
         </div>
         <div>
@@ -73,7 +74,14 @@ export default {
                 }
             });
         },
+        navigateToDeckLegality() {
+            console.log('Navigating to deck legality');
+            this.$router.push('/deckLegality');
+        },
+        
     },
 };
+
+
 </script>
   
